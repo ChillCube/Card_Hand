@@ -135,7 +135,7 @@ func _check_collision_recursive(node: Node, global_pos: Vector2) -> bool:
 	if node is CollisionShape2D:
 		var shape = node.shape as RectangleShape2D
 		if shape:
-			# Convert global mouse position to the local space of the collision shape
+			# Convert global mouse position to the local space of the collision shape .
 			var local_pos = node.to_local(global_pos)
 			
 			# A RectangleShape2D is centered at (0,0), so its bounds are 
