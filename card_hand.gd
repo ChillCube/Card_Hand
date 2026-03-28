@@ -34,6 +34,7 @@ func _init() -> void:
 @export var base_z_index : int = 0
 @export var max_z_bonus : int = 10 
 
+
 func _process(_delta: float) -> void:
 	if continous_arranging:
 		arrange()
@@ -122,3 +123,31 @@ func get_index_at_position(global_pos: Vector2) -> int:
 	# Calculate index based on horizontal spacing
 	var idx = round((mouse_rel_x / distance_horizontal) + default_center)
 	return int(clamp(idx, 0, total_nodes))
+
+## Checks if a global position overlaps any collision area within the cards
+func is_position_in_hand_zone(global_pos: Vector2) -> bool:
+	for child in get_children():
+		if _check_collision_recursive(child, global_pos):
+			return true
+	return false
+
+func _check_collision_recursive(node: Node, global_pos: Vector2) -> bool:
+	if node is CollisionShape2D:
+		var shape = node.shape as RectangleShape2D
+		if shape:
+			# Convert global mouse position to the local space of the collision shape
+			var local_pos = node.to_local(global_pos)
+			
+			# A RectangleShape2D is centered at (0,0), so its bounds are 
+			# from -size/2 to +size/2
+			var rect = Rect2(-shape.size / 2.0, shape.size)
+			
+			if rect.has_point(local_pos):
+				return true
+
+	# Keep looking through the card's internal nodes (sprites, containers, etc.)
+	for child in node.get_children():
+		if _check_collision_recursive(child, global_pos):
+			return true
+			
+	return false
