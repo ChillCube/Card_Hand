@@ -1,4 +1,4 @@
-# Card Deck
+# Card Hand
 
 a godot addon that lets you create a deck of cards. Used for Card2D node
 
@@ -15,13 +15,13 @@ clone-gd-addon https://github.com/ChillCube/Card_Deck.git
 > Make sure to enable the addon, including its dependencies in the project settings!
 
 ## Documentation
-You can find the documentation at: https://github.com/ChillCube/Card Deck/blob/main/DOCUMENTATION.md
+You can find the documentation at: https://github.com/ChillCube/Card Hand/blob/main/DOCUMENTATION.md
 
 ## Deinstallation
 ### Linux
 Run this in the root of your godot project:
 ```bash
-remove-gd-addon Card Deck
+remove-gd-addon Card Hand
 ```
 
 ## For Developers

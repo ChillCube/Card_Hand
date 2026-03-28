@@ -1,0 +1,2 @@
+https://github.com/ChillCube/2d_node_arranger.git
+https://github.com/ChillCube/Godot_SmoothMovement.git
