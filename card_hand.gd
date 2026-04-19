@@ -11,7 +11,9 @@ func _init() -> void:
 	curve_intensity = 35.0 
 	rotation_intensity = 5.0
 	offset = Vector2(0, -50)
-	
+
+@export var grid : Grid;
+
 @export_group("Toggles")
 ## Toggle the curved "Fan" layout entirely
 @export var use_fan_curve : bool = true
