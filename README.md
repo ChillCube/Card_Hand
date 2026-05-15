@@ -32,3 +32,8 @@ push-all-addons
 ```
 
 
+
+## Used By
+1 other ChillCube addon(s) depend on this:
+
+- [2dCard](https://github.com/ChillCube/2dCard)
