@@ -153,3 +153,4 @@ func _check_collision_recursive(node: Node, global_pos: Vector2) -> bool:
 			return true
 			
 	return false
+
