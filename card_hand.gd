@@ -13,7 +13,7 @@ func _init() -> void:
 	rotation_intensity = 5.0
 	offset = Vector2(0, -50)
 
-@export var grid : Grid;
+@export var grid : Grid; ## Optional Grid reference used by cards in this hand for snap-to-grid placement
 
 @export_group("Toggles")
 ## Toggle the curved "Fan" layout entirely
@@ -28,21 +28,21 @@ func _init() -> void:
 @export var use_z_index_hover : bool = true
 
 @export_group("Mouse Adaptation")
-@export var mouse_reactive : bool = true
-@export var reaction_radius : float = 300.0 
-@export var mouse_lift_height : float = -50.0 
-@export var horizontal_spread : float = 20.0 
+@export var mouse_reactive : bool = true ## If true, cards respond to mouse proximity with lift and spread effects
+@export var reaction_radius : float = 300.0 ## Distance in pixels from the hand center within which mouse proximity effects are active
+@export var mouse_lift_height : float = -50.0 ## Y offset applied to the hovered card (negative = upward lift)
+@export var horizontal_spread : float = 20.0 ## Horizontal distance in pixels that neighboring cards push away from the hovered card
 
 @export_group("Z-Index Control")
-@export var base_z_index : int = 0
-@export var max_z_bonus : int = 10 
+@export var base_z_index : int = 0 ## Z-index assigned to the leftmost card; each subsequent card increments by 1
+@export var max_z_bonus : int = 10 ## Extra Z-index added to the hovered card so it renders on top
 
 
 func _process(_delta: float) -> void:
 	if continous_arranging:
 		arrange()
 
-func _arrange_nodes(nodes : Array[Node]) -> void:
+func _arrange_nodes(nodes : Array[Node]) -> void: ## Lays out all cards in a normalized fan arc with optional hover lift, spread, and z-index boost
 	var total_to_show = min(nodes.size(), max_horizontal * max_vertical)
 	if total_to_show <= 0: return
 	
@@ -116,7 +116,7 @@ func _arrange_nodes(nodes : Array[Node]) -> void:
 		var final_placement = global_position + offset + Vector2(x_offset, y_offset)
 		_arrange_node(node, final_placement, dynamic_rotation)
 # Add this function to your CardHand class
-func get_index_at_position(global_pos: Vector2) -> int:
+func get_index_at_position(global_pos: Vector2) -> int: ## Returns the child index (clamped) closest to the given global position based on horizontal spacing
 	var total_nodes = get_child_count()
 	if total_nodes == 0: return 0
 	
