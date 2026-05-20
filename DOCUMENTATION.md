@@ -18,6 +18,14 @@ a godot addon that lets you create a deck of cards. Used for Card2D node
 | **base_z_index** | `int` | `0` | Z-index assigned to the leftmost card; each subsequent card increments by 1 |
 | **max_z_bonus** | `int` | `10` | Extra Z-index added to the hovered card so it renders on top |
 
+### 🔔 Signals
+| Signal | Arguments | Description |
+| :--- | :--- | :--- |
+| **card_added** | `card: Node2D` |  Emitted when a card node is added to the hand |
+| **card_removed** | `card: Node2D` |  Emitted when a card node is removed from the hand |
+| **card_hovered** | `card: Node2D` |  Emitted when the mouse begins hovering over a specific card |
+| **card_hover_ended** | - |  Emitted when the mouse stops hovering over any card in the hand |
+
 ### 🛠️ Methods
 | Method | Arguments | Returns | Description |
 | :--- | :--- | :--- | :--- |

@@ -37,6 +37,24 @@ func _init() -> void:
 @export var base_z_index : int = 0 ## Z-index assigned to the leftmost card; each subsequent card increments by 1
 @export var max_z_bonus : int = 10 ## Extra Z-index added to the hovered card so it renders on top
 
+signal card_added(card: Node2D) ## Emitted when a card node is added to the hand
+signal card_removed(card: Node2D) ## Emitted when a card node is removed from the hand
+signal card_hovered(card: Node2D) ## Emitted when the mouse begins hovering over a specific card
+signal card_hover_ended ## Emitted when the mouse stops hovering over any card in the hand
+
+var _prev_hovered_idx: int = -1
+
+func _ready() -> void:
+	child_entered_tree.connect(_on_card_entered)
+	child_exiting_tree.connect(_on_card_exiting)
+
+func _on_card_entered(node: Node) -> void:
+	if node is Node2D:
+		card_added.emit(node as Node2D)
+
+func _on_card_exiting(node: Node) -> void:
+	if node is Node2D:
+		card_removed.emit(node as Node2D)
 
 func _process(_delta: float) -> void:
 	if continous_arranging:
@@ -115,6 +133,14 @@ func _arrange_nodes(nodes : Array[Node]) -> void: ## Lays out all cards in a nor
 		node.z_index = final_z
 		var final_placement = global_position + offset + Vector2(x_offset, y_offset)
 		_arrange_node(node, final_placement, dynamic_rotation)
+
+	var current_hovered = int(hovered_idx) if is_hovering_card else -1
+	if current_hovered != _prev_hovered_idx:
+		if current_hovered >= 0 and current_hovered < nodes.size():
+			card_hovered.emit(nodes[current_hovered] as Node2D)
+		else:
+			card_hover_ended.emit()
+		_prev_hovered_idx = current_hovered
 # Add this function to your CardHand class
 func get_index_at_position(global_pos: Vector2) -> int: ## Returns the child index (clamped) closest to the given global position based on horizontal spacing
 	var total_nodes = get_child_count()
