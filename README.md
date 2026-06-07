@@ -28,7 +28,7 @@ remove-gd-addon Card Hand
 push-all-addons
 ```
 
-## Used By
-1 other ChillCube addon(s) depend on this:
+## Dependencies
 
-- [2dCard](https://github.com/ChillCube/2dCard)
+- [PlacementArea2D](https://github.com/ChillCube/PlacementArea2D)
+- [Grid](https://github.com/ChillCube/Godot_Grid)
