@@ -2,4 +2,5 @@ https://github.com/ChillCube/2d_node_arranger.git
 https://github.com/ChillCube/Godot_SmoothMovement.git
 
 # --- Manually Add Dependencies Here  ---
+https://github.com/ChillCube/PlacementArea2D
 https://github.com/ChillCube/Godot_Grid
