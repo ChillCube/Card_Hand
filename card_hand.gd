@@ -208,7 +208,29 @@ func _arrange_nodes(nodes : Array[Node]) -> void: ## Lays out all cards in a nor
 					y_offset += eff_lift
 					dynamic_rotation = 0.0
 				if use_z_index_hover:
-					final_z += max_z_bonus
+					var should_boost_z := true
+
+					if use_hover_lift and eff_lift < 0.0:
+						var non_lifted_y = global_position.y + eff_offset.y + (y_offset - eff_lift)
+						var lift_frac = clamp((non_lifted_y - (node as Node2D).global_position.y) / -eff_lift, 0.0, 1.0)
+						should_boost_z = should_boost_z and lift_frac > 0.5
+
+					if use_horizontal_spread and eff_spread > 0.0:
+						var spread_frac := 1.0
+						var right_idx := int(hovered_idx) + 1
+						var left_idx := int(hovered_idx) - 1
+						if right_idx < total_to_show:
+							var nb := nodes[right_idx] as Node2D
+							var base_nx = global_position.x + eff_offset.x + (right_idx - default_center) * eff_dist_h
+							spread_frac = min(spread_frac, clamp((nb.global_position.x - base_nx) / eff_spread, 0.0, 1.0))
+						if left_idx >= 0:
+							var nb := nodes[left_idx] as Node2D
+							var base_nx = global_position.x + eff_offset.x + (left_idx - default_center) * eff_dist_h
+							spread_frac = min(spread_frac, clamp((base_nx - nb.global_position.x) / eff_spread, 0.0, 1.0))
+						should_boost_z = should_boost_z and spread_frac > 0.5
+
+					if should_boost_z:
+						final_z += max_z_bonus
 
 		# 5. Apply
 		node.z_index = final_z
